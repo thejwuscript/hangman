@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class Game
-  attr_accessor :health, :wrong_letters, :secret_word
+  attr_accessor :health, :wrong_letters, :secret_word, :player
 
   def initialize
     @health = '♥♥♥♥♥♥'
     @wrong_letters = ''
     @secret_word = ''
+    @player = Player.new
   end
 
   def play
@@ -15,7 +16,7 @@ class Game
 
   def prep_game
     select_secret_word
-    show_UI
+    show_interface
   end
 
   def select_secret_word
@@ -29,12 +30,16 @@ class Game
     end
   end
 
-  def show_UI
-    <<-HEREDOC
+  def empty_lines
+    secret_word.gsub(/[a-z]/, ' _')
+  end
 
-    Health left: #{health}"
+  def show_interface
+    puts <<-HEREDOC
 
-          Word: #{player_guess}
+          Health left: #{health}
+
+          Word: #{empty_lines}     #{secret_word}
 
           Misses: #{wrong_letters}
 
@@ -56,20 +61,3 @@ end
 # Display correct letters and their position
 
 # pre-game: extract the length of "secret word" and that will be the number of "_"
-# show 🍰🍰🍰🍰🍰🍰
-# Show "Misses: "
-
-# wordlist = File.open('5desk.txt', 'r') { |file| file.readlines }
-# secret_word = ""
-# loop do
-#   candidate = wordlist.sample
-#   if candidate.length >= 7 && candidate.length <= 14
-#     secret_word = candidate[0..-3].downcase
-#     break
-#   end
-# end
-# p secret_word
-
-# ♥♥
-
-# ♥♥
