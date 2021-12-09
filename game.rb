@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+require './display.rb'
+
 class Game
-  attr_accessor :health, :wrong_guesses, :secret_word, :player
+  attr_accessor :health, :wrong_guesses, :secret_word, :player, :correct_guesses
 
   include Display
 
@@ -15,7 +17,7 @@ class Game
 
   def play
     prep_game
-    # rounds
+    rounds
     # endgame
   end
 
@@ -36,13 +38,18 @@ class Game
   end
 
   def rounds
-    # Player guesses one letter, store that in the instance variable @guess
     player.guess = gets.chomp.downcase
-    # Compare the letter with the secret word. Does it contain the guessed letter?
+    evaluate_guess
+    show_interface
+    rounds
+  end
+
+  def evaluate_guess
     if secret_word.include?(player.guess) == true
-      self.correct_guesses = player.guess
+      self.correct_guesses += player.guess
     else
-      self.wrong_guesses = player.guess
+      self.wrong_guesses += player.guess
+      self.health = health.sub('♥', '')
     end
   end
 

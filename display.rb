@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 module Display
-
-  def empty_lines
-    secret_word.gsub(/[a-z]/, ' _')
+  def letters
+    if correct_guesses == ''
+      secret_word.gsub(/[a-z]/, ' _')
+    else
+      secret_word.gsub(/[^#{correct_guesses}]/, '_').gsub(/(.{1})/, ' \1')
+    end
   end
 
   def show_interface
@@ -11,7 +14,7 @@ module Display
 
           Health left: #{health}
 
-          Word: #{empty_lines}     #{secret_word}
+          Word: #{letters}     #{secret_word}
 
           Misses: #{wrong_guesses}
 
