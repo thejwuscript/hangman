@@ -1,17 +1,22 @@
 # frozen_string_literal: true
 
 class Game
-  attr_accessor :health, :wrong_letters, :secret_word, :player
+  attr_accessor :health, :wrong_guesses, :secret_word, :player
+
+  include Display
 
   def initialize
     @health = '♥♥♥♥♥♥'
-    @wrong_letters = ''
+    @wrong_guesses = ''
+    @correct_guesses = ''
     @secret_word = ''
     @player = Player.new
   end
 
   def play
     prep_game
+    # rounds
+    # endgame
   end
 
   def prep_game
@@ -30,21 +35,17 @@ class Game
     end
   end
 
-  def empty_lines
-    secret_word.gsub(/[a-z]/, ' _')
+  def rounds
+    # Player guesses one letter, store that in the instance variable @guess
+    player.guess = gets.chomp.downcase
+    # Compare the letter with the secret word. Does it contain the guessed letter?
+    if secret_word.include?(player.guess) == true
+      self.correct_guesses = player.guess
+    else
+      self.wrong_guesses = player.guess
+    end
   end
 
-  def show_interface
-    puts <<-HEREDOC
-
-          Health left: #{health}
-
-          Word: #{empty_lines}     #{secret_word}
-
-          Misses: #{wrong_letters}
-
-    HEREDOC
-  end
 end
 
 # display some sort of count so the player knows how many more incorrect guesses
