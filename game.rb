@@ -10,7 +10,7 @@ class Game
   def initialize
     @health = '♥♥♥♥♥♥'
     @wrong_guesses = ''
-    @correct_guesses = ''
+    @correct_guesses = '=>'
     @secret_word = ''
     @player = Player.new
   end
@@ -18,7 +18,7 @@ class Game
   def play
     prep_game
     rounds
-    # endgame
+    endgame
   end
 
   def prep_game
@@ -38,19 +38,36 @@ class Game
   end
 
   def rounds
-    player.guess = gets.chomp.downcase
+    make_valid_guess
     evaluate_guess
     show_interface
+    return if secret_word == secret_word.gsub(/[^#{correct_guesses}]/, ' ')
+    
+
+    return if health == ''
+
     rounds
+  end
+
+  def make_valid_guess
+    player.guess = gets.chomp.downcase
+    # Player can only type in ONE. LETTER.
+    # So no two or more characters
+    # No numbers or special characters.
+    # Cannot type in letters already guessed
   end
 
   def evaluate_guess
     if secret_word.include?(player.guess) == true
       self.correct_guesses += player.guess
     else
-      self.wrong_guesses += player.guess
+      self.wrong_guesses += " #{player.guess}" 
       self.health = health.sub('♥', '')
     end
+  end
+
+  def endgame
+    puts "Game over! Thanks for playing."
   end
 
 end
