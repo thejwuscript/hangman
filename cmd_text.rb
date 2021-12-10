@@ -11,7 +11,7 @@ module CmdText
   end
 
   def one_letter
-    puts 'Please enter only one letter.'
+    puts 'Too many letters. Please enter only one letter.'
   end
 
   def no_num_special_chars
@@ -23,7 +23,6 @@ module CmdText
   end
 
   def prompt_player_guess
-    puts "Please enter one letter to make your guess. You may type 'save' to save the game."
     print 'Guess: '
   end
 
