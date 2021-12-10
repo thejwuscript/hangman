@@ -1,17 +1,21 @@
 # frozen_string_literal: true
 
 require './display.rb'
+require './cmd_text.rb'
 require 'json'
 
 class Game
-  attr_accessor :health, :wrong_guesses, :secret_word, :player, :correct_guesses
+  attr_accessor :health, :wrong_guesses, :secret_word, :player,
+                :correct_guesses, :total_guesses
 
   include Display
+  include CmdText
 
   def initialize
     @health = '♥♥♥♥♥♥'
     @wrong_guesses = ''
     @correct_guesses = ''
+    @total_guesses = @wrong_guesses + @correct_guesses
     @secret_word = ''
     @player = Player.new
   end
@@ -55,7 +59,6 @@ class Game
     evaluate_guess
     show_interface
     return if secret_word == secret_word.gsub(/[^#{correct_guesses}|.]/, ' ')
-    
 
     return if health == ''
 
@@ -65,19 +68,28 @@ class Game
   def make_valid_guess
     prompt_player_guess
     player.guess = gets.chomp.downcase
-    if player.guess == 'save'
+    case player.guess
+    when 'save'
       save_to_json
       make_valid_guess
-    elsif player.guess != /[a-z]/
+    when /[^a-z]/
       invalid_entry
       make_valid_guess
     end
   end
-    # Player can only type in ONE. LETTER.
-    # So no two or more characters
-    # No numbers or special characters.
-    # Cannot type in letters already guessed
-  
+
+  def invalid_entry
+    if player.guess.length > 1
+      one_letter
+    elsif player.guess == /[\p{P}\p{S}]\p{N}/
+      no_num_special_chars
+    elsif (wrong_guesses + correct_guesses).include? player.guess
+      no_repeats
+    else
+      puts 'Invalid entry. Please try again.'
+    end
+  end
+
   def evaluate_guess
     if secret_word.include?(player.guess) == true
       self.correct_guesses += player.guess
@@ -88,7 +100,7 @@ class Game
   end
 
   def endgame
-    puts "Game over! Thanks for playing."
+    puts 'Game over! Thanks for playing.'
   end
 
   def save_to_json

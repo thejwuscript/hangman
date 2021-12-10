@@ -14,8 +14,8 @@ module CmdText
     puts 'Please enter only one letter.'
   end
 
-  def no_special_chars
-    puts 'No special characters. Please enter one letter.'
+  def no_num_special_chars
+    puts 'No numbers or special characters. Please enter one letter.'
   end
 
   def no_repeats
