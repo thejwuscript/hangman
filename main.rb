@@ -5,4 +5,6 @@ require_relative 'display.rb'
 require_relative 'player.rb'
 require_relative 'cmd_text.rb'
 
-Game.new.play
+game = Game.new
+
+game.play

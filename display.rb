@@ -9,6 +9,11 @@ module Display
     end
   end
 
+  def display_wrong_guesses
+    wrong_guesses.chomp(',')
+  end
+
+
   def show_interface
     puts <<-HEREDOC
 
@@ -16,7 +21,7 @@ module Display
 
           Word: #{letters}     #{secret_word}
 
-          Misses: #{wrong_guesses}
+          Misses: #{display_wrong_guesses}
 
     HEREDOC
   end
