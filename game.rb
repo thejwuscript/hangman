@@ -63,10 +63,13 @@ class Game
   end
 
   def make_valid_guess
+    prompt_player_guess
     player.guess = gets.chomp.downcase
     if player.guess == 'save'
       save_to_json
-      puts 'Game saved.'
+      make_valid_guess
+    elsif player.guess != /[a-z]/
+      invalid_entry
       make_valid_guess
     end
   end
@@ -97,12 +100,12 @@ class Game
         correct_guesses: @correct_guesses,
         secret_word: @secret_word
       }, file)
-      end
+    end
+    puts 'Game saved.'
   end
 
   def load_from_json
     hash = JSON.load File.read('save_state.json')
-    p File.read('save_state.json')
     self.health = hash['health']
     self.wrong_guesses = hash['wrong_guesses']
     self.correct_guesses = hash['correct_guesses']
