@@ -19,7 +19,7 @@ module Display
 
           Health left: #{health}
 
-          Word: #{letters}     
+          Word: #{letters}      #{secret_word}
 
           Misses: #{display_wrong_guesses}
 

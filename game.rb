@@ -5,8 +5,8 @@ require './cmd_text.rb'
 require 'json'
 
 class Game
-  attr_accessor :health, :wrong_guesses, :secret_word, :player,
-                :correct_guesses, :all_guesses
+  attr_accessor :health, :wrong_guesses, :secret_word, :correct_guesses, :all_guesses
+  attr_reader :player
 
   include Display
   include CmdText
@@ -44,12 +44,12 @@ class Game
   end
 
   def select_secret_word
-    wordlist = File.open('5desk.txt', 'r') { |file| file.readlines }
+    wordlist = File.open('dictionary1000.txt', 'r') { |file| file.readlines }
     loop do
       candidate = wordlist.sample
       next unless candidate.length >= 7 && candidate.length <= 14
 
-      self.secret_word = candidate[0..-3].downcase
+      self.secret_word = candidate[0..-2].downcase
       break
     end
   end
@@ -109,7 +109,11 @@ class Game
   end
 
   def endgame
-    puts "The secret word is '#{secret_word}'"
+    if secret_word == letters.gsub(/\s/, '')
+      show_winning_message
+    else
+      show_losing_message
+    end
     puts 'Game over! Thanks for playing.'
   end
 
