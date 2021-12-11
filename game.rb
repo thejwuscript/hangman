@@ -22,7 +22,6 @@ class Game
   end
 
   def play
-    welcome_message
     prep_game unless load_game? == true
     rounds
     endgame
@@ -86,18 +85,6 @@ class Game
     invalid_entry
   end
 
-  def invalid_entry
-    if player.guess.length > 1
-      one_letter
-    elsif /[\p{P}\p{S}\p{N}]/.match?(player.guess)
-      no_num_special_chars
-    elsif all_guesses.include? player.guess
-      no_repeats
-    else
-      puts 'Invalid entry. Please try again.'
-    end
-  end
-
   def evaluate_guess
     if secret_word.include?(player.guess) == true
       self.correct_guesses += player.guess
@@ -108,17 +95,12 @@ class Game
   end
 
   def endgame
-    if secret_word == letters.gsub(/\s/, '')
-      show_winning_message
-    else
-      show_losing_message
-    end
+    secret_word == letters.gsub(/\s/, '') ? show_winning_message : show_losing_message
     play_again?
   end
 
   def save_to_json
-    path = 'save_state.json'
-    File.open(path, 'w') do |file|
+    File.open('save_state.json', 'w') do |file|
       JSON.dump({
                   health: @health,
                   wrong_guesses: @wrong_guesses,
@@ -139,16 +121,6 @@ class Game
 
   def play_again?
     print 'Play again? [y/n] '
-    if gets.chomp.downcase == 'y'
-      Game.new.new_game
-    else
-      puts 'Thanks for playing.'
-    end
-  end
-
-  def new_game
-    prep_game
-    rounds
-    endgame
+    gets.chomp.downcase == 'y' ? Game.new.play : puts('Thanks for playing.')
   end
 end

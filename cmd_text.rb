@@ -2,14 +2,6 @@
 
 # Module for player instructions, comments and feedback.
 module CmdText
-  def welcome_message
-    system('clear')
-    puts "Welcome to \e[41m\e[1m\e[4mHANGMAN\e[24m\e[22m\e[0m."
-    puts 'Guess a secret word by guessing one letter at a time.'
-    puts '(Press any key to continue...)'
-    $stdin.getch
-  end
-
   def load_message
     puts 'Would you like to load a saved game? [y/n]'
   end
@@ -50,5 +42,17 @@ module CmdText
     return unless all_guesses != ''
 
     secret_word.include?(player.guess) ? encourage : lose_health_message
+  end
+
+  def invalid_entry
+    if player.guess.length > 1
+      one_letter
+    elsif /[\p{P}\p{S}\p{N}]/.match?(player.guess)
+      no_num_special_chars
+    elsif all_guesses.include? player.guess
+      no_repeats
+    else
+      puts 'Invalid entry. Please try again.'
+    end
   end
 end
