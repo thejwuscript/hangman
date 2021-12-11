@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
+# Module for player instructions, comments and feedback.
 module CmdText
   def welcome_message
     system('clear')
     puts "Welcome to \e[41m\e[1m\e[4mHANGMAN\e[24m\e[22m\e[0m."
     puts 'Guess a secret word by guessing one letter at a time.'
     puts '(Press any key to continue...)'
-    STDIN.getch
+    $stdin.getch
   end
 
   def load_message
@@ -46,8 +47,8 @@ module CmdText
   end
 
   def feedback
-    if all_guesses != ''
-      secret_word.include?(player.guess) ? encourage : lose_health_message
-    end
+    return unless all_guesses != ''
+
+    secret_word.include?(player.guess) ? encourage : lose_health_message
   end
 end

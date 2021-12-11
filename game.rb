@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-require './display.rb'
-require './cmd_text.rb'
+require './display'
+require './cmd_text'
 require 'json'
 
+# Class for the process of the game.
 class Game
   attr_accessor :health, :wrong_guesses, :secret_word, :correct_guesses, :all_guesses
   attr_reader :player
@@ -44,7 +45,7 @@ class Game
   end
 
   def select_secret_word
-    wordlist = File.open('dictionary1000.txt', 'r') { |file| file.readlines }
+    wordlist = File.open('dictionary1000.txt', 'r', &:readlines)
     loop do
       candidate = wordlist.sample
       next unless candidate.length >= 7 && candidate.length <= 14
@@ -119,17 +120,17 @@ class Game
     path = 'save_state.json'
     File.open(path, 'w') do |file|
       JSON.dump({
-        health: @health,
-        wrong_guesses: @wrong_guesses,
-        correct_guesses: @correct_guesses,
-        secret_word: @secret_word
-      }, file)
+                  health: @health,
+                  wrong_guesses: @wrong_guesses,
+                  correct_guesses: @correct_guesses,
+                  secret_word: @secret_word
+                }, file)
     end
     puts 'Game saved.'
   end
 
   def load_from_json
-    hash = JSON.load File.read('save_state.json')
+    hash = JSON.parse File.read('save_state.json')
     self.health = hash['health']
     self.wrong_guesses = hash['wrong_guesses']
     self.correct_guesses = hash['correct_guesses']
@@ -150,5 +151,4 @@ class Game
     rounds
     endgame
   end
-
 end

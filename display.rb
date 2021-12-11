@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Module for user interface.
 module Display
   def letters
     if correct_guesses == ''
@@ -15,16 +16,16 @@ module Display
 
   def show_interface
     system('clear')
-    puts <<-HEREDOC
-              \e[41m\e[1m   \e[4mHANGMAN\e[24m   \e[22m\e[0m
+    puts <<~HEREDOC
+                    \e[41m\e[1m   \e[4mHANGMAN\e[24m   \e[22m\e[0m
 
-          Health left: #{health}
+                Health left: #{health}
 
-          Word: #{letters}
+                Word: #{letters}
 
-          Misses: #{display_wrong_guesses}
+                Misses: #{display_wrong_guesses}
 
-#{feedback}
+      #{feedback}
 
     HEREDOC
   end

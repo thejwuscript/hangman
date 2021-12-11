@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'game.rb'
-require_relative 'display.rb'
-require_relative 'player.rb'
-require_relative 'cmd_text.rb'
+require_relative 'game'
+require_relative 'display'
+require_relative 'player'
+require_relative 'cmd_text'
 require 'io/console'
-
 
 game = Game.new
 
