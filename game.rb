@@ -139,11 +139,16 @@ class Game
   def play_again?
     print 'Play again? [y/n] '
     if gets.chomp.downcase == 'y'
-      prep_game
-      rounds
-      endgame
+      Game.new.new_game
     else
       puts 'Thanks for playing.'
     end
   end
+
+  def new_game
+    prep_game
+    rounds
+    endgame
+  end
+
 end
