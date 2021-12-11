@@ -99,10 +99,8 @@ class Game
 
   def evaluate_guess
     if secret_word.include?(player.guess) == true
-      puts 'Great guess. Keep it up!'
       self.correct_guesses += player.guess
     else
-      puts "Letter '#{player.guess}' is not in the word! -1 health :( "
       self.wrong_guesses += " #{player.guess},"
       self.health = health.sub('♥', '')
     end

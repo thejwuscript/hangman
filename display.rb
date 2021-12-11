@@ -13,7 +13,6 @@ module Display
     wrong_guesses.chomp(',')
   end
 
-
   def show_interface
     system('clear')
     puts <<-HEREDOC
@@ -24,6 +23,8 @@ module Display
           Word: #{letters}
 
           Misses: #{display_wrong_guesses}
+
+#{feedback}
 
     HEREDOC
   end

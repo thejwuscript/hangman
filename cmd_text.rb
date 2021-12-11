@@ -3,7 +3,7 @@
 module CmdText
   def welcome_message
     system('clear')
-    puts 'Welcome to Hangman.'
+    puts "Welcome to \e[41m\e[1m\e[4mHANGMAN\e[24m\e[22m\e[0m."
     puts 'Guess a secret word by guessing one letter at a time.'
     puts '(Press any key to continue...)'
     STDIN.getch
@@ -35,5 +35,19 @@ module CmdText
 
   def show_winning_message
     puts 'You got it! Congratulations.'
+  end
+
+  def encourage
+    'Great guess, keep it up!'
+  end
+
+  def lose_health_message
+    "Letter '#{player.guess}' is not in the word! Lose 1 health :("
+  end
+
+  def feedback
+    if all_guesses != ''
+      secret_word.include?(player.guess) ? encourage : lose_health_message
+    end
   end
 end
