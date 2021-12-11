@@ -21,14 +21,15 @@ class Game
   end
 
   def play
+    welcome_message
     prep_game unless load_game? == true
     rounds
     endgame
   end
 
   def load_game?
-    puts "Load save state? (y/n)"
-    if gets.chomp == 'y'
+    load_message
+    if gets.chomp.downcase == 'y'
       load_from_json
       show_interface
       true
@@ -36,7 +37,6 @@ class Game
       false
     end
   end
-
 
   def prep_game
     select_secret_word
@@ -114,7 +114,7 @@ class Game
     else
       show_losing_message
     end
-    puts 'Game over! Thanks for playing.'
+    play_again?
   end
 
   def save_to_json
@@ -136,5 +136,16 @@ class Game
     self.wrong_guesses = hash['wrong_guesses']
     self.correct_guesses = hash['correct_guesses']
     self.secret_word = hash['secret_word']
+  end
+
+  def play_again?
+    print 'Play again? [y/n] '
+    if gets.chomp.downcase == 'y'
+      prep_game
+      rounds
+      endgame
+    else
+      puts 'Thanks for playing.'
+    end
   end
 end

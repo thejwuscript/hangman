@@ -2,8 +2,11 @@
 
 module CmdText
   def welcome_message
+    system('clear')
     puts 'Welcome to Hangman.'
     puts 'Guess a secret word by guessing one letter at a time.'
+    puts '(Press any key to continue...)'
+    STDIN.getch
   end
 
   def load_message

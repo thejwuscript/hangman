@@ -15,11 +15,13 @@ module Display
 
 
   def show_interface
+    system('clear')
     puts <<-HEREDOC
+              \e[41m\e[1m   \e[4mHANGMAN\e[24m   \e[22m\e[0m
 
           Health left: #{health}
 
-          Word: #{letters}      #{secret_word}
+          Word: #{letters}
 
           Misses: #{display_wrong_guesses}
 
